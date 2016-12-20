@@ -2,7 +2,7 @@
 require 'rails_helper'
 require 'mvi/middleware/response/soap'
 
-describe MVI::Middleware::Response::Soap do
+describe Common::Client::Middleware::Response::SOAPParser do
   let(:connection) do
     Faraday.new do |conn|
       conn.use MVI::Middleware::Response::Soap
