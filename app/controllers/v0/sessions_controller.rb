@@ -29,7 +29,13 @@ module V0
 
       if @saml_response.is_valid? && persist_session_and_user
         async_create_evss_account(@current_user)
-        redirect_to SAML_CONFIG['relay'] + '?token=' + @session.token
+        byebug
+        logger.info "Bill"
+        logger.info "Redirected to #{SAML_CONFIG['relay']}?token=[FILTERED]"
+        Rails.logger.silence do
+          byebug
+          redirect_to SAML_CONFIG['relay'] + '?token=' + @session.token
+        end
       else
         logger.warn 'Authentication attempt did not succeed in saml_callback, reasons...'
         logger.warn "  SAML Response: valid?=#{@saml_response.is_valid?} errors=#{@saml_response.errors}"

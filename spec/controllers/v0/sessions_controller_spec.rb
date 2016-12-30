@@ -48,6 +48,16 @@ RSpec.describe V0::SessionsController, type: :controller do
         expect(User.find(uuid)).to_not be_nil
         expect(User.find(uuid).attributes).to eq(User.from_merged_attrs(loa1_user, loa3_user).attributes)
       end
+      it 'redirects to the configured saml relay url' do
+        post :saml_callback
+        expect(response.location).to start_with("#{SAML_CONFIG['relay']}")
+        expect(response).to redirect_to(response.location)
+      end
+      it 'does not leak the token value to the logs' do
+        # TODO - implement this!
+        #expect(Rails.logger).to receive(:info).with("Redirected to #{SAML_CONFIG['relay']}?token=[FILTERED]")
+        post :saml_callback
+      end
     end
   end
 
