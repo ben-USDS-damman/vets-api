@@ -24,7 +24,7 @@ pipeline {
       steps {
         dir('ansible') {
           sh  "bash -c 'source venv/bin/activate && ansible-playbook " +
-              "-e branch=${branch} " +
+              "-e api_branch=${BRANCH_NAME} " +
               "-v aws-deploy-branch.yml'"
         }
       }
