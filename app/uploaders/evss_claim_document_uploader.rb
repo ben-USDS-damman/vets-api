@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class EVSSClaimDocumentUploader < CarrierWave::Uploader::Base
+  MIN_FILE_SIZE = 0
   MAX_FILE_SIZE = 25.megabytes
 
   before :store, :validate_file_size
@@ -29,6 +30,7 @@ class EVSSClaimDocumentUploader < CarrierWave::Uploader::Base
   private
 
   def validate_file_size(file)
+    raise CarrierWave::UploadError, 'File size smaller than allowed' unless file.size > MIN_FILE_SIZE
     raise CarrierWave::UploadError, 'File size larger than allowed' if file.size > MAX_FILE_SIZE
   end
 

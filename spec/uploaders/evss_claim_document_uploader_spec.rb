@@ -49,6 +49,10 @@ RSpec.describe EVSSClaimDocumentUploader do
   end
 
   describe '#store!' do
+    it 'raises an error when the file is empty' do
+      file = double(size: 0)
+      expect { subject.store!(file) }.to raise_error(CarrierWave::UploadError)
+    end
     it 'raises an error when the file is larger than 25 megabytes' do
       file = double(size: 25.megabytes + 1)
       expect { subject.store!(file) }.to raise_error(CarrierWave::UploadError)
